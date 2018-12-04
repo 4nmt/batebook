@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./TweetItem.scss";
+
 class TweetItem extends React.Component {
   render() {
     const { msg, thumb } = this.props;
@@ -13,7 +15,7 @@ class TweetItem extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-10">
+          <div className="col-10 twfeed__closer">
             <div className="twfeed__msg">{msg}</div>
           </div>
         </div>

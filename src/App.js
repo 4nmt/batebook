@@ -1,19 +1,18 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
-import HomePage from "./containers/HomePage/HomePage";
-import FollowingPage from "./containers/HomePage/FollowwingPage";
-import FollowersPage from "./containers/HomePage/FollowersPage";
-import AccountPage from "./containers/HomePage/AccountPage";
+import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import FollowingPage from "./containers/FollowingPage/FollowingPage";
+import FollowersPage from "./containers/FollowersPage/FollowersPage";
+import AccountPage from "./containers/AccountPage/AccountPage";
+import TweetPage from "./containers/TweetPage/TweetPage";
 
 const App = () => (
   <Router>
-    <div>
-      <Route path="/" exact component={HomePage} />
+    <>
+      <Route path="/" exact component={TweetPage} />
       <Route path="/following" component={FollowingPage} />
       <Route path="/followers" component={FollowersPage} />
       <Route path="/account" component={AccountPage} />
-    </div>
+    </>
   </Router>
 );
 

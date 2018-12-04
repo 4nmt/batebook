@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 import "./Account.scss";
 
-export default class Example extends React.Component {
+export default class Account extends React.Component {
   constructor(props) {
     super(props);
 
@@ -34,11 +34,7 @@ export default class Example extends React.Component {
         toggle={this.toggle}
       >
         <DropdownToggle caret>
-          <img
-            className="account__img"
-            alt="avatar"
-            src="https://pbs.twimg.com/profile_images/1039929617598087169/wpthjCyB_400x400.jpg"
-          />
+          <img className="account__img" alt="avatar" src={this.props.thumb} />
           {this.props.name}
         </DropdownToggle>
         <DropdownMenu>

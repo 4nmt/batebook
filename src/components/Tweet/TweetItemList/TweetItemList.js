@@ -1,30 +1,16 @@
 import React from "react";
-
 import TweetItem from "../TweetItem/TweetItem";
 
-class TweetItemList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: [
-        { text: "dadsa", thumb: "https://placehold.it/64x64" },
-        { text: "dadsa", thumb: "https://placehold.it/64x64" }
-      ]
-    };
-  }
+import "./TweetItemList.scss";
 
-  render() {
-    const tweets = this.state.items,
-      tweetsList = tweets.map(obj => {
-        return <TweetItem msg={obj.text} thumb={obj.thumb} />;
-      });
-
-    return (
-      <div>
-        {tweetsList.length > 0 ? tweetsList : [<TweetItem />, <TweetItem />]}
-      </div>
-    );
-  }
-}
+const TweetItemList = ({ commentList }) => {
+  return (
+    <div className="comment__container">
+      {commentList.map(obj => {
+        return <TweetItem msg={obj.content} thumb={obj.thumb} />;
+      })}
+    </div>
+  );
+};
 
 export default TweetItemList;

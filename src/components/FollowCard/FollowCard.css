@@ -16,22 +16,9 @@
   --font-small: 14px;
 }
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-  width: 100%;
-  font-family: "Helvetica-Neue", sans-serif;
-}
-
 .twitter-card {
   margin: 0px 10px;
-  width: 400px;
+  width: 30.5%;
   height: 300px;
   border: 1px solid var(--light-grey);
   border-radius: 6px;

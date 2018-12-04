@@ -1,5 +1,6 @@
 import React from "react";
 import "./Tweetbox.css";
+import { Button } from "reactstrap";
 
 class TweetBox extends React.Component {
   constructor(props) {
@@ -20,34 +21,38 @@ class TweetBox extends React.Component {
   }
 
   disableButton() {
-    return this.messageLength() == 0;
+    return this.messageLength() === 0;
   }
 
   maxLengthClassName() {
-    if (this.messageLength() == this.state.maxLength) {
+    if (this.messageLength() === this.state.maxLength) {
       return "red";
     }
   }
 
   handleChange = e => {
     const val = e.target.value;
-
     this.setState({
       message: val
     });
   };
 
+  clearInput = () => {
+    this.setState({
+      message: ""
+    });
+  };
+
   render() {
     return (
-      <div class="tweetbox_container clearfix">
+      <div className="tweetbox_container clearfix">
         <textarea
           name="message"
           placeholder="Tweet something..."
           onChange={this.handleChange}
-          maxlength={this.state.maxLength}
-        >
-          {this.state.message}
-        </textarea>
+          maxLength={this.state.maxLength}
+          value={this.state.message}
+        />
 
         {this.showMaxLength() && (
           <span className={this.maxLengthClassName()}>
@@ -55,9 +60,23 @@ class TweetBox extends React.Component {
           </span>
         )}
 
-        <button type="button" disabled={this.disableButton()}>
-          Tweet
-        </button>
+        <div className="btn-margin">
+          <Button
+            color="secondary"
+            type="button"
+            disabled={this.disableButton()}
+            onClick={() => {
+              this.props.addComment(
+                this.props.id,
+                this.props.account.thumb,
+                this.state.message
+              );
+              this.clearInput();
+            }}
+          >
+            Tweet
+          </Button>
+        </div>
       </div>
     );
   }

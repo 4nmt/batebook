@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Navbar from "../Navbar/Navbar";
-import Header from "../../components/Header/Header";
-import ProfileInfo from "../Body/ProfileInfo";
+import Navbar from "../Topbar/Topbar";
+import Header from "../Header/Header";
+import ProfileInfo from "../ProfileInfo/ProfileInfo";
 import { Container, Row, Col, Card } from "reactstrap";
 
-const FollowLayout = props => {
+const TwoColumn = props => {
   return (
     <React.Fragment>
       <Navbar />
@@ -21,4 +21,4 @@ const FollowLayout = props => {
   );
 };
 
-export default FollowLayout;
+export default TwoColumn;

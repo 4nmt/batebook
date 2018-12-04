@@ -4,35 +4,6 @@ $bg_color: #e3e3e3;
 $border_color: #d4d4d4;
 $light_gray: #c7c7c7;
 
-html,
-body {
-  height: 100%;
-}
-
-body {
-  background: $body_color;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Helvetica Neue;
-  color: $text_color;
-
-  > * {
-    margin: auto;
-  }
-}
-
-.wrapper {
-  width: 100%;
-  text-align: center;
-  &__inner {
-    display: inline-block;
-    width: 100%;
-    max-width: 500px;
-    text-align: left;
-  }
-}
-
 .twfeed {
   background: $bg_color;
   padding: 5px 0;
@@ -91,5 +62,15 @@ body {
       background: $light_gray;
       border-radius: 3px;
     }
+  }
+
+  &__closer {
+    padding: 0 !important;
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
   }
 }
