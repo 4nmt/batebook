@@ -7,9 +7,6 @@ const initState = [
       "https://i2.wp.com/futbolita.com/wp-content/uploads/2008/11/avatar-1577909_960_720.png?fit=720%2C720",
     description:
       "Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus",
-    likeNumber: "2001",
-    shareNumber: "1.2M",
-    commentNumber: "1111",
 
     isLike: false,
 

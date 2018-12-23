@@ -1,16 +1,18 @@
-import React from "react";
+import React from 'react';
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-} from "reactstrap";
+} from 'reactstrap';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import "./Account.scss";
-
-export default class Account extends React.Component {
+import './Account.scss';
+import {
+  withRouter
+} from "react-router-dom";
+ class Account extends React.Component {
   constructor(props) {
     super(props);
 
@@ -24,6 +26,14 @@ export default class Account extends React.Component {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen
     }));
+  }
+
+  logout() {
+    console.log(this.props);
+    const {history} = this.props
+    // Remove all saved data from sessionStorage
+    sessionStorage.clear();
+    history.push('/')    
   }
 
   render() {
@@ -41,9 +51,10 @@ export default class Account extends React.Component {
           <Link to="/account">
             <DropdownItem>Account</DropdownItem>
           </Link>
-          <DropdownItem>Log out</DropdownItem>
+          <DropdownItem onClick={() => this.logout()}>Log out</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     );
   }
 }
+export default withRouter(Account)

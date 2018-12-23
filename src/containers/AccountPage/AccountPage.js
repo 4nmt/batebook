@@ -4,10 +4,15 @@ import MainLayout from "../../components/Layout/MainLayout";
 
 import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 import { Row, Col } from "reactstrap";
-import { changeAccount } from "./action";
-import { ChangeAccount } from "./ChangeAccount";
+import { fetchAccount } from "./action";
+import  ChangeAccount from "./ChangeAccount";
+import { refreshAccount } from "../LoginPage/action";
 
 class AccountPage extends Component {
+  componentDidMount(){
+    const {loginAccount} = this.props
+    refreshAccount(sessionStorage.getItem('key'))
+  }
   render() {
     return (
       <MainLayout {...this.props.account}>
@@ -19,7 +24,7 @@ class AccountPage extends Component {
             {" "}
             <ChangeAccount
               {...this.props.account}
-              changeAccount={this.props.changeAccount}
+              fetchAccount={this.props.fetchAccount}
             />
           </Col>
         </Row>
@@ -27,10 +32,11 @@ class AccountPage extends Component {
     );
   }
 }
-
 const mapDispatchToProps = dispatch => ({
-  changeAccount: (name, birthday) => dispatch(changeAccount({ name, birthday }))
+  fetchAccount: (name,picture) => dispatch(fetchAccount({name,picture})),
+  refreshAccount: secretKey => dispatch(refreshAccount(secretKey))
 });
+
 
 const mapStateToProps = state => ({
   account: state.account
