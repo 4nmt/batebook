@@ -19,7 +19,7 @@
 .twitter-card {
   margin: 0px 10px;
   width: 30.5%;
-  height: 300px;
+  height: 150px;
   border: 1px solid var(--light-grey);
   border-radius: 6px;
   display: flex;
@@ -39,7 +39,6 @@
 }
 
 .user-image {
-  background-image: url("https://bit.ly/2NIfSbx");
   background-position: center;
   background-size: cover;
   height: 70px;

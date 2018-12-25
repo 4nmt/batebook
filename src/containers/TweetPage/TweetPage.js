@@ -6,13 +6,12 @@ import { Row, Col } from "reactstrap";
 import Tweet from "../../components/Tweet/Tweet";
 
 import { addComment, addLike } from "./action";
-import { loginAccount } from "../LoginPage/action";
-
+import { refreshAccount } from "../LoginPage/action";
 
 class TweetPage extends Component {
   componentDidMount(){
-    const {loginAccount} = this.props
-    loginAccount(sessionStorage.getItem('key'))
+    const {refreshAccount} = this.props
+    refreshAccount(sessionStorage.getItem('key'))
   }
 
   render() {
@@ -49,7 +48,7 @@ const mapDispatchToProps = dispatch => ({
   addLike: (id_tweet, thumb, name, isLike) => {
     dispatch(addLike(id_tweet, { thumb, name }, isLike));
   },
-  loginAccount: secretKey => dispatch(loginAccount(secretKey))
+  refreshAccount: secretKey => dispatch(refreshAccount(secretKey))
 });
 
 const mapStateToProps = state => ({

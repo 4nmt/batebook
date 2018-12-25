@@ -10,7 +10,7 @@ import { refreshAccount } from "../LoginPage/action";
 
 class AccountPage extends Component {
   componentDidMount(){
-    const {loginAccount} = this.props
+    const {refreshAccount} = this.props
     refreshAccount(sessionStorage.getItem('key'))
   }
   render() {

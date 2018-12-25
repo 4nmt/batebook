@@ -5,7 +5,7 @@ import NumberLink from "./NumberLink";
 
 import "./Header.scss";
 
-const Header = ({ banner, avatar }) => {
+const Header = ({ banner, avatar, children }) => {
   return (
     <header>
       <div className="profile__container">
@@ -26,11 +26,7 @@ const Header = ({ banner, avatar }) => {
             <Row>
               <Col sm="3" />
               <Col sm="6">
-                <div className="d-flex flex-row bd-highlight mb-3 ">
-                  <NumberLink type="Tweets" number="1111" />
-                  <NumberLink type="Following" number="2135" />
-                  <NumberLink type="Followers" number="1.2M" />
-                </div>
+                {children}
               </Col>
               <Col sm="3" />
             </Row>

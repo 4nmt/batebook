@@ -43,8 +43,7 @@ export const refreshAccount = (secretKey) => {
       // console.log(data);
 
       const { address, info, balance, sequence, bandwidth, enegry } = data;
-      const {name , picture} = info
-      const account = { address, name, picture, balance, sequence, bandwidth, enegry };
+      const account = { address, ...info, balance, sequence, bandwidth, enegry };
       sessionStorage.setItem('key', secretKey);
       dispatch(loginSuccess(account));
     } catch (e) {

@@ -1,4 +1,5 @@
 import { getPostListAPI } from '../../api/';
+
 export const ADD_TWEET = 'ADD_TWEET';
 export const LIST_TWEET = 'LIST_TWEET';
 export const ADD_COMMENT = 'ADD_COMMENT';
@@ -11,15 +12,16 @@ export const fetchPosts = posts => ({
   posts
 });
 
-export const fetchPostsSrv = posts => {
+export const fetchPostsSrv = followings => {
   return async dispatch => {
     try {
-      let postList = posts.map(async address => {
+      console.log(followings);
+      
+      let postList = followings.map(async address => {
         const data = await getPostListAPI(address);
-        const {
-          info: { name, picture }
-        } = data;
-        return { name, picture };
+        console.log(data);
+        
+        return {};
       });
       postList = await Promise.all(postList);
 

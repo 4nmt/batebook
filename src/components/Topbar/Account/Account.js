@@ -51,6 +51,9 @@ import {
           <Link to="/account">
             <DropdownItem>Account</DropdownItem>
           </Link>
+          <Link to="/settings">
+            <DropdownItem>Settings</DropdownItem>
+          </Link>
           <DropdownItem onClick={() => this.logout()}>Log out</DropdownItem>
         </DropdownMenu>
       </Dropdown>

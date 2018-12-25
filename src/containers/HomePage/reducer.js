@@ -1,7 +1,7 @@
 import { FETCH_POSTS, ADD_TWEET, ADD_COMMENT, ADD_LIKE } from "./action";
 
 const initState = [
-  
+ 
 ];
 
 function tweets(state = initState, action) {

@@ -1,18 +1,41 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import MainLayout from "../../components/Layout/MainLayout";
-import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
-import FollowCard from "../../components/FollowCard/FollowCard";
-import { refreshAccount } from "../LoginPage/action";
+import MainLayout from '../../components/Layout/MainLayout';
+import ProfileInfo from '../../components/ProfileInfo/ProfileInfo';
+import FollowCard from '../../components/FollowCard/FollowCard';
+import { refreshAccount } from '../LoginPage/action';
+import { fetchFollowings, fetchFollowingsSrv } from './action';
 
-import { Row, Col } from "reactstrap";
+import { Row, Col } from 'reactstrap';
 
 class FollowersPage extends Component {
-  componentDidMount(){
-    refreshAccount(sessionStorage.getItem('key'))
+  static getDerivedStateFromProps(props) {
+    // const { account,refreshAccount } = props;
+    // console.log(props);
+
+    // if (account.address === '') {
+    //   refreshAccount(sessionStorage.getItem('key'));
+    // }
   }
+  componentDidUpdate(props){
+    const { account, fetchFollowingsSrv, followings } = this.props;
+    console.log(props);
+    console.log(this.props);
+   
+    if (account.followings.length !== followings.length) {
+      fetchFollowingsSrv(account.followings);
+    }
+  }
+
+  componentDidMount() {
+    const { refreshAccount } = this.props;
+    refreshAccount(sessionStorage.getItem('key'));
+  }
+
   render() {
+    const { followings } = this.props;
+    console.log(followings);
     return (
       <MainLayout {...this.props.account}>
         <Row>
@@ -20,8 +43,8 @@ class FollowersPage extends Component {
             <ProfileInfo {...this.props.account} />
           </Col>
           <Col sm="9">
-            <div className="d-flex flex-row bd-highlight mb-3 ">
-              {this.props.account.followings.map(obj => {
+            <div className="d-flex flex-wrap bd-highlight mb-3 ">
+              {followings.map(obj => {
                 return <FollowCard {...obj} />;
               })}
             </div>
@@ -33,12 +56,13 @@ class FollowersPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  refreshAccount: secretKey => dispatch(refreshAccount(secretKey))
+  refreshAccount: secretKey => dispatch(refreshAccount(secretKey)),
+  fetchFollowingsSrv: followings => dispatch(fetchFollowingsSrv(followings))
 });
 
 const mapStateToProps = state => ({
   account: state.account,
-  following: state.following
+  followings: state.following
 });
 
 export default connect(
