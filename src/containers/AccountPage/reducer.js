@@ -5,9 +5,7 @@ const initState = {
   address: '',
   banner: 'https://pbs.twimg.com/profile_banners/166739404/1520706832/1500x500',
   name: 'anonymous',
-  picture:
-    'https://i2.wp.com/futbolita.com/wp-content/uploads/2008/11/avatar-1577909_960_720.png?fit=720%2C720',
-    followings: [],
+      followings: [],
 };
 
 function changeAccount(state = initState, action) {

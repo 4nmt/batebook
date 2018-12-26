@@ -16,7 +16,7 @@ const Header = ({ banner, avatar, children }) => {
           <div className="profile__avatar__container">
             <div className="profile__avatar ">
               <Link to="#">
-                <img src={avatar} alt="avatar" />
+                <img src={`data:image/png;base64,${avatar}`} alt="avatar" />
               </Link>
             </div>
           </div>

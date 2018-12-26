@@ -17,7 +17,7 @@ import Tweet from '../../components/Tweet/Tweet';
 
 import { addComment, addLike } from './action';
 import { loginAccount } from '../LoginPage/action';
-import { fetchPostsSrv } from './action';
+import { fetchPostsSrv, uploadPostsSrv } from './action';
 
 import Tweetbox from '../../components/Tweet/Tweetbox/Tweetbox';
 
@@ -28,35 +28,35 @@ class HomePage extends Component {
   }
 
   componentDidUpdate(props) {
-    const { fetchPostsSrv, account,tweets } = this.props;
+    const { fetchPostsSrv, account, tweets } = this.props;
     console.log(this.props);
     console.log(props);
 
-    if(tweets !== props.tweets){
-      fetchPostsSrv(account.followings)
+    if (tweets !== props.tweets) {
+      fetchPostsSrv(account.followings);
     }
   }
 
   render() {
     console.log(this.props);
-    
+    const {account ,uploadPostsSrv } = this.props
     return (
-      <NoCatalogLayout {...this.props.account}>
+      <NoCatalogLayout {...account}>
         <Row>
           <Col sm="3">
-            <ProfileInfo {...this.props.account} />
+            <ProfileInfo {...account} />
           </Col>
           <Col sm="6">
             <Card>
               <CardTitle>
                 {' '}
-                <Tweetbox />
+                <Tweetbox uploadPostsSrv={uploadPostsSrv} />
               </CardTitle>
               {this.props.tweets.map((obj, i) => {
                 return (
                   <Tweet
                     {...obj}
-                    account={{ ...this.props.account }}
+                    account={{ ...account }}
                     addComment={this.props.addComment}
                     addLike={this.props.addLike}
                     id={i}
@@ -80,7 +80,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addLike(id_tweet, { thumb, name }, isLike));
   },
   loginAccount: secretKey => dispatch(loginAccount(secretKey)),
-  fetchPostsSrv: followings => dispatch(fetchPostsSrv(followings))
+  fetchPostsSrv: followings => dispatch(fetchPostsSrv(followings)),
+  uploadPostsSrv: text => dispatch(uploadPostsSrv(text))
 });
 
 const mapStateToProps = state => ({

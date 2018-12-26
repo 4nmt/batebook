@@ -21,8 +21,9 @@ export const loginAccount = (secretKey) => {
   return async dispatch => {
     try {
       const keyPair = Keypair.fromSecret(secretKey);
+
       const data = await getAccountAPI(keyPair.publicKey());
-      // console.log(data);
+      console.log(data);
 
       const { address, info, balance, sequence, bandwidth, enegry } = data;
       const account = { address, ...info, balance, sequence, bandwidth, enegry };
@@ -30,6 +31,8 @@ export const loginAccount = (secretKey) => {
       dispatch(loginSuccess(account));
       history.push('/')
     } catch (e) {
+      console.log(e);
+
       dispatch(loginFailed(e));
     }
   };
@@ -40,13 +43,14 @@ export const refreshAccount = (secretKey) => {
     try {
       const keyPair = Keypair.fromSecret(secretKey);
       const data = await getAccountAPI(keyPair.publicKey());
-      // console.log(data);
 
       const { address, info, balance, sequence, bandwidth, enegry } = data;
       const account = { address, ...info, balance, sequence, bandwidth, enegry };
       sessionStorage.setItem('key', secretKey);
       dispatch(loginSuccess(account));
     } catch (e) {
+      console.log(e);
+      
       dispatch(loginFailed(e));
     }
   };

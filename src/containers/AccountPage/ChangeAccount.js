@@ -5,6 +5,10 @@ import Dropzone from 'react-dropzone';
 class ChangeAccount extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      file: null,
+      imagePreviewUrl: ''
+    };
     this.nameNode = React.createRef();
   }
 
@@ -36,7 +40,7 @@ class ChangeAccount extends Component {
             id="name"
             val={name}
             placeholder="name placeholder"
-            innerRef={this.nameNode}
+            innerRef={node => (this.nameNode = node)}
           />
         </FormGroup>
         <FormGroup>
@@ -47,11 +51,7 @@ class ChangeAccount extends Component {
         </FormGroup>
         <Button
           onClick={() => {
-            if (checkFormIsValid(this.nameNode.value)) {
-              fetchAccount(this.nameNode.value, this.state.imagePreviewUrl);
-            } else {
-              alert('some fields are missing !!');
-            }
+            fetchAccount(this.nameNode.value, this.state.imagePreviewUrl);
           }}
         >
           Submit

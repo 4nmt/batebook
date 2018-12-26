@@ -66,11 +66,7 @@ class TweetBox extends React.Component {
             type="button"
             disabled={this.disableButton()}
             onClick={() => {
-              this.props.addComment(
-                this.props.id,
-                this.props.account.thumb,
-                this.state.message
-              );
+              this.props.uploadPostsSrv(this.state.message)
               this.clearInput();
             }}
           >

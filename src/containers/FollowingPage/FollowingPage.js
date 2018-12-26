@@ -5,8 +5,8 @@ import MainLayout from '../../components/Layout/MainLayout';
 import ProfileInfo from '../../components/ProfileInfo/ProfileInfo';
 import FollowCard from '../../components/FollowCard/FollowCard';
 import { refreshAccount } from '../LoginPage/action';
-import { fetchFollowings, fetchFollowingsSrv } from './action';
-
+import { fetchFollowings, fetchFollowingsSrv , FollowingsActionSrv } from './action';
+import _ from "lodash"
 import { Row, Col } from 'reactstrap';
 
 class FollowersPage extends Component {
@@ -33,6 +33,17 @@ class FollowersPage extends Component {
     refreshAccount(sessionStorage.getItem('key'));
   }
 
+  Unfollowings = (address) =>{
+    const { FollowingsActionSrv, followings } = this.props;
+    console.log(followings);
+    console.log(address);
+    
+    const newFollowings = followings.filter( f => f.address !== address)
+    console.log(newFollowings);
+    
+    FollowingsActionSrv(newFollowings)
+  }
+
   render() {
     const { followings } = this.props;
     console.log(followings);
@@ -45,7 +56,7 @@ class FollowersPage extends Component {
           <Col sm="9">
             <div className="d-flex flex-wrap bd-highlight mb-3 ">
               {followings.map(obj => {
-                return <FollowCard {...obj} />;
+                return <FollowCard {...obj} Unfollowings={address => this.Unfollowings(address)} />;
               })}
             </div>
           </Col>
@@ -57,7 +68,9 @@ class FollowersPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   refreshAccount: secretKey => dispatch(refreshAccount(secretKey)),
-  fetchFollowingsSrv: followings => dispatch(fetchFollowingsSrv(followings))
+  fetchFollowingsSrv: followings => dispatch(fetchFollowingsSrv(followings)),
+  FollowingsActionSrv: followings => dispatch(FollowingsActionSrv(followings))
+
 });
 
 const mapStateToProps = state => ({

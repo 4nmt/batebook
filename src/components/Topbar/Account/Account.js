@@ -44,7 +44,7 @@ import {
         toggle={this.toggle}
       >
         <DropdownToggle caret>
-          <img className="account__img" alt="avatar" src={this.props.thumb} />
+          <img className="account__img"src={`data:image/png;base64,${this.props.thumb}`} alt="avatar" />
           {this.props.name}
         </DropdownToggle>
         <DropdownMenu>
