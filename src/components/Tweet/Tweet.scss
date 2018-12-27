@@ -1,3 +1,51 @@
 .tweet {
-  margin-bottom: 20px;
+  padding: 10px 10px 0px 10px;
+  img {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto !important;
+    border-radius: 50%;
+  }
+
+  &__content {
+    padding: 0 !important;
+  }
+
+  &__comment {
+    &__on {
+      display: block;
+    }
+    &__off {
+      display: none;
+    }
+  }
+
+  &__catalog {
+    margin-top: 10px !important;
+    margin-right: 20px !important;
+    display: block;
+    margin: 0;
+    color: #657786;
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    transition: color 0.15s ease-in-out 0s;
+
+    &__active {
+      color: #3399ff !important;
+    }
+  }
+
+  &__active {
+    color: #3399ff !important;
+  }
+
+  &__catalog:hover {
+    color: #3399ff;
+    cursor: pointer;
+  }
+}
+
+.is_active {
+  color: #3399ff !important;
 }

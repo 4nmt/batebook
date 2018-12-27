@@ -67,6 +67,10 @@ header {
       color: #3399ff;
     }
 
+    &__active {
+      border-color: #3399ff !important;
+    }
+
     &__number {
       color: rgb(102, 117, 127);
       font-size: 18px;
@@ -94,4 +98,9 @@ header {
 .relative_container {
   height: 100%;
   position: relative;
+}
+
+.is_active {
+  border-color: #3399ff !important;
+  color: #3399ff;
 }
