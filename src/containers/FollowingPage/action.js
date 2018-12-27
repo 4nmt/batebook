@@ -18,7 +18,6 @@ export const fetchFollowingsSrv = followings => {
     try {
       let followingList = followings.map(async address => {
         const data = await getAccountAPI(address);
-
         const {
           address: ad,
           info: { name, picture }
@@ -38,8 +37,8 @@ export const FollowingsActionSrv = followings => {
   return async dispatch => {
     try{
       const res = await followingsAPI(followings)
-      console.log(res);
-      
+      sessionStorage.setItem('followings', followings);
+      alert("Followings Actions successfully")
     } catch (e) {
       throw e;
     }

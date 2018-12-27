@@ -18,7 +18,7 @@ const initState = [
 function following(state = initState, action) {
   switch (action.type) {
     case FETCH_FOLLOWINGS:
-      return [...state, ...action.followings]
+      return [...action.followings]
     default:
       return state;
   }

@@ -13,15 +13,18 @@ const PlainTextContent = vstruct([
 // TOOLS
 export const getSequencefromPublicAPI = async publicKey => {
   try {
-    const res = await axios.get(
-      `${PUBLIC_URL}/tx_search?query="account=%27${publicKey}%27"`
-    );
-    let txs = _.get(res, 'data.result.txs');
-    txs = txs.map(tx => {
-      return decode(Buffer.from(tx.tx, 'base64'));
-    });
+    // const res = await axios.get(
+    //   `${PUBLIC_URL}/tx_search?query="account=%27${publicKey}%27"`
+    // );
+    // let txs = _.get(res, 'data.result.txs');
+    // txs = txs.map(tx => {
+    //   return decode(Buffer.from(tx.tx, 'base64'));
+    // });
 
-    return _.filter(txs, { account: publicKey }).length;
+    // return _.filter(txs, { account: publicKey }).length;
+
+    const res = await getAccountAPI(publicKey);
+    return res.sequence
   } catch (error) {
     throw error;
   }
@@ -31,10 +34,10 @@ export const getSequencefromPublicAPI = async publicKey => {
 export const updateAccountAPI = async (data, key) => {
   try {
     var secretKey = sessionStorage.getItem('key');
-    const keypair = Keypair.fromSecret(secretKey);
-    const publicKey = keypair.publicKey();
+    const publicKey = sessionStorage.getItem('publicKey');
     const sequence = await getSequencefromPublicAPI(publicKey);
     console.log(data);
+    console.log('sequece: ', sequence);
 
     if (data && key) {
       let value = Buffer.from(data);
@@ -56,7 +59,10 @@ export const updateAccountAPI = async (data, key) => {
 
       sign(tx, secretKey);
       const dataHex = encode(tx).toString('hex');
-      await axios.get(`${PUBLIC_URL}/broadcast_tx_commit?tx=0x${dataHex}`);
+      const da = await axios.get(
+        `${PUBLIC_URL}/broadcast_tx_commit?tx=0x${dataHex}`
+      );
+      console.log(da);
     }
   } catch (e) {
     throw e;
@@ -66,7 +72,11 @@ export const updateAccountAPI = async (data, key) => {
 export const updateAllInfoAPI = async account => {
   try {
     const { name, picture, followings } = account;
+    console.log(account);
+
     if (name) {
+      console.log(name);
+
       await updateAccountAPI(name, 'name');
     }
 
@@ -89,7 +99,78 @@ export const getAccountAPI = async publicKey => {
   }
 };
 
+// PAYMENT
+
+export const sendPaymentAPI = async account => {
+  try {
+    const secretKey = sessionStorage.getItem('key');
+    const publicKey = sessionStorage.getItem('publicKey');
+    const sequence = await getSequencefromPublicAPI(publicKey);
+    const { address, amount } = account;
+    if (account) {
+      let tx = {
+        account: publicKey,
+        version: 1,
+        sequence: sequence + 1,
+        memo: Buffer.alloc(0),
+        operation: 'payment',
+        params: {
+          address,
+          amount: _.toSafeInteger(amount)
+        }
+      };
+
+      sign(tx, secretKey);
+      const dataHex = encode(tx).toString('hex');
+      await axios.get(`${PUBLIC_URL}/broadcast_tx_commit?tx=0x${dataHex}`);
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+//CREATE ACCOUNT
+
+export const createAccountAPI = async account => {
+  try {
+    const secretKey = sessionStorage.getItem('key');
+    const publicKey = sessionStorage.getItem('publicKey');
+    const sequence = await getSequencefromPublicAPI(publicKey);
+    
+    if (account) {
+      let tx = {
+        account: publicKey,
+        version: 1,
+        sequence: sequence + 1,
+        memo: Buffer.alloc(0),
+        operation: 'create_account',
+        params: {
+          address : account.address
+        }
+      };
+
+      sign(tx, secretKey);
+      const dataHex = encode(tx).toString('hex');
+      await axios.get(`${PUBLIC_URL}/broadcast_tx_commit?tx=0x${dataHex}`);
+    }
+  } catch (error) {
+    throw error;
+  }
+};
 // POST
+
+export const getInteractListAPI = async publicKey => {
+  try {
+  
+    const interacts = await axios.get(`${SERVER_URL}/v1/interacts/${publicKey}`);
+    const posts = await axios.get(`${SERVER_URL}/v1/posts/${publicKey}`);
+      
+    return [...interacts.data,...posts.data];
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getPostListAPI = async publicKey => {
   try {
     const res = await axios.get(`${SERVER_URL}/posts/${publicKey}`);
@@ -142,13 +223,12 @@ const Followings = vstruct([
 
 export const followingsAPI = async followings => {
   try {
-    var secretKey = sessionStorage.getItem('key');
-    const keypair = Keypair.fromSecret(secretKey);
-    const publicKey = keypair.publicKey();
+    const secretKey = sessionStorage.getItem('key');
+    const publicKey = sessionStorage.getItem('publicKey');
     const sequence = await getSequencefromPublicAPI(publicKey);
     console.log(followings);
 
-    const addresses = followings.map(f => base32.decode(f.address));
+    const addresses = followings.map(f => Buffer.from(base32.decode(f)));
 
     if (followings) {
       let tx = {
@@ -164,12 +244,10 @@ export const followingsAPI = async followings => {
           })
         }
       };
-      console.log(tx);
 
-      // sign(tx, secretKey);
-      // const dataHex = encode(tx).toString('hex');
-      // await axios.get(`${PUBLIC_URL}/broadcast_tx_commit?tx=0x${dataHex}`);
-      // alert("Followings Actions successfully")
+      sign(tx, secretKey);
+      const dataHex = encode(tx).toString('hex');
+      await axios.get(`${PUBLIC_URL}/broadcast_tx_commit?tx=0x${dataHex}`);
     }
   } catch (error) {
     throw error;

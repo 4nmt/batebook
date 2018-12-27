@@ -1,38 +1,81 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import MainLayout from "../../components/Layout/MainLayout";
-import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
-import { Row, Col } from "reactstrap";
-import Tweet from "../../components/Tweet/Tweet";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import MainLayout from '../../components/Layout/MainLayout';
+import ProfileInfo from '../../components/ProfileInfo/ProfileInfo';
+import { Row, Col } from 'reactstrap';
+import Tweet from '../../components/Tweet/Tweet';
 
-import { addComment, addLike } from "./action";
-import { refreshAccount } from "../LoginPage/action";
+import { addComment, addLike, fetchInteractSrv } from './action';
+import { refreshAccount } from '../LoginPage/action';
+import ReactLoading from 'react-loading';
 
 class TweetPage extends Component {
-  componentDidMount(){
-    const {refreshAccount} = this.props
-    refreshAccount(sessionStorage.getItem('key'))
+  componentDidMount() {
+    console.log('dadad');
+
+    const {
+      refreshAccount,
+      fetchInteractSrv,
+      match: { params }
+    } = this.props;
+    refreshAccount(params.id);
+    fetchInteractSrv(params.id);
+  }
+
+  componentDidUpdate(props) {
+    const {
+      tweets: t,
+      match: {
+        params: { id }
+      }
+    } = props;
+    const {
+      account,
+      tweets,
+      match: {
+        params: { id: i }
+      },
+      refreshAccount,
+      fetchInteractSrv
+    } = this.props;
+    if (id !== i) {
+      refreshAccount(i);
+      fetchInteractSrv(i);
+    }
   }
 
   render() {
+    const { account, tweets, addComment, addLike, followings } = this.props;
     return (
-      <MainLayout {...this.props.account}>
+      <MainLayout {...account} tweetSize={tweets.length} followSize={account.followings.length}>
         <Row>
           <Col sm="3">
-            <ProfileInfo {...this.props.account} />
+            <ProfileInfo {...account} />
           </Col>
           <Col sm="6">
-            {this.props.tweets.map((obj, i) => {
-              return (
-                <Tweet
-                  {...obj}
-                  account={{ ...this.props.account }}
-                  addComment={this.props.addComment}
-                  addLike={this.props.addLike}
-                  id={i}
+            {tweets.length === 0 ? (
+              <div style={{ margin: 'auto', width: 'fit-content' }}>
+                <ReactLoading
+                  type="bubbles"
+                  color="blue"
+                  height={100}
+                  width={100}
                 />
-              );
-            })}
+              </div>
+            ) : (
+              tweets.map((obj, i) => {
+                return (
+                  <Tweet
+                    {...obj}
+                    account={{ ...account }}
+                    addComment={addComment}
+                    addLike={addLike}
+                    tweets={addLike}
+                    id={i}
+                  />
+                );
+              })
+            )}
           </Col>
           <Col sm="3" />
         </Row>
@@ -48,12 +91,14 @@ const mapDispatchToProps = dispatch => ({
   addLike: (id_tweet, thumb, name, isLike) => {
     dispatch(addLike(id_tweet, { thumb, name }, isLike));
   },
-  refreshAccount: secretKey => dispatch(refreshAccount(secretKey))
+  refreshAccount: secretKey => dispatch(refreshAccount(secretKey)),
+  fetchInteractSrv: publicKey => dispatch(fetchInteractSrv(publicKey))
 });
 
 const mapStateToProps = state => ({
   account: state.account,
-  tweets: state.tweets
+  tweets: state.tweets,
+  followings: state.followings
 });
 
 export default connect(

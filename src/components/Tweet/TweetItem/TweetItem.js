@@ -11,7 +11,7 @@ class TweetItem extends React.Component {
           <div className="col-2">
             <div className="twfeed__thumb">
               <div className="twfeed__thumb__inner">
-                {thumb ? <img src={thumb} alt="thumnail" /> : ""}
+                {thumb ? <img src={`data:image/png;base64,${thumb}`} alt="thumnail" /> : ""}
               </div>
             </div>
           </div>

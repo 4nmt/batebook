@@ -29,7 +29,7 @@ class ChangeAccount extends Component {
   }
 
   render() {
-    const { name, fetchAccount } = this.props;
+    const { name, updateAllAccount } = this.props;
     return (
       <Form>
         <FormGroup>
@@ -51,7 +51,7 @@ class ChangeAccount extends Component {
         </FormGroup>
         <Button
           onClick={() => {
-            fetchAccount(this.nameNode.value, this.state.imagePreviewUrl);
+            updateAllAccount(this.nameNode.value, this.state.imagePreviewUrl);
           }}
         >
           Submit
@@ -61,7 +61,4 @@ class ChangeAccount extends Component {
   }
 }
 
-const checkFormIsValid = name => {
-  return Boolean(name);
-};
 export default ChangeAccount;

@@ -7,7 +7,7 @@ const TweetItemList = ({ commentList }) => {
   return (
     <div className="comment__container">
       {commentList.map(obj => {
-        return <TweetItem msg={obj.content} thumb={obj.thumb} />;
+        return <TweetItem msg={obj.text} thumb={obj.picture} />;
       })}
     </div>
   );

@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const NumberLink = ({ type, number, type_active, onClick }) => {
-  const link = type === "Tweets" ? "/" : "/" + type.toLowerCase();
+const NumberLink = ({ address , type, number, type_active, onClick }) => {
+  const link = type === "Tweets" ? `/${address}/tweets` : `/${address}/followings`
   const is_active = window.location.pathname === link ? "is_active" : "";
   return (
     <Link to={link}>

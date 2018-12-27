@@ -5,11 +5,11 @@ import NumberLink from './NumberLink';
 
 import './Header.scss';
 
-const Catalog = ({ tweets, followings }) => {
+const Catalog = ({address, tweetSize,followSize }) => {
   return (
     <div className="d-flex flex-row bd-highlight mb-3 ">
-      <NumberLink type="Tweets" number="1111" />
-      <NumberLink type="Following" number="2135" />
+      <NumberLink address={address} type="Tweets" number={tweetSize} />
+      <NumberLink address={address} type="Followings" number={followSize} />
     </div>
   );
 };

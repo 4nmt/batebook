@@ -21,13 +21,16 @@ export const loginAccount = (secretKey) => {
   return async dispatch => {
     try {
       const keyPair = Keypair.fromSecret(secretKey);
-
-      const data = await getAccountAPI(keyPair.publicKey());
+      const publicKey = keyPair.publicKey()
+      const data = await getAccountAPI(publicKey);
       console.log(data);
 
       const { address, info, balance, sequence, bandwidth, enegry } = data;
       const account = { address, ...info, balance, sequence, bandwidth, enegry };
       sessionStorage.setItem('key', secretKey);
+      sessionStorage.setItem('publicKey', publicKey);
+      sessionStorage.setItem('followings', info.followings);
+
       dispatch(loginSuccess(account));
       history.push('/')
     } catch (e) {
@@ -38,15 +41,12 @@ export const loginAccount = (secretKey) => {
   };
 };
 
-export const refreshAccount = (secretKey) => {
+export const refreshAccount = (publicKey) => {
   return async dispatch => {
     try {
-      const keyPair = Keypair.fromSecret(secretKey);
-      const data = await getAccountAPI(keyPair.publicKey());
-
+      const data = await getAccountAPI(publicKey);
       const { address, info, balance, sequence, bandwidth, enegry } = data;
       const account = { address, ...info, balance, sequence, bandwidth, enegry };
-      sessionStorage.setItem('key', secretKey);
       dispatch(loginSuccess(account));
     } catch (e) {
       console.log(e);

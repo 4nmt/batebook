@@ -4,8 +4,8 @@ import MainLayout from "../../components/Layout/MainLayout";
 
 import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 import { Row, Col } from "reactstrap";
-import { updateAllAccount } from "./action";
-import  ChangeAccount from "./ChangeAccount";
+import { sendPayment } from "./action";
+import  Payment from "./Payment";
 import { refreshAccount } from "../LoginPage/action";
 import {Keypair} from "stellar-base"
 
@@ -27,9 +27,9 @@ class AccountPage extends Component {
           </Col>
           <Col sm="9">
             {" "}
-            <ChangeAccount
+            <Payment
               {...this.props.account}
-              updateAllAccount={this.props.updateAllAccount}
+              sendPayment={this.props.sendPayment}
             />
           </Col>
         </Row>
@@ -38,7 +38,7 @@ class AccountPage extends Component {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  updateAllAccount: (name,picture) => dispatch(updateAllAccount({name,picture})),
+  sendPayment: (address,amount) => dispatch(sendPayment({address,amount})),
   refreshAccount: publicKey => dispatch(refreshAccount(publicKey))
 });
 

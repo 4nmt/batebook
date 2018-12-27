@@ -1,13 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Row, Col, Card } from "reactstrap";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Row, Col, Card } from 'reactstrap';
 
-import Tweetbox from "./Tweetbox/Tweetbox";
-import TweetItemList from "./TweetItemList/TweetItemList";
-import TweetModal from "./TweetModal/TweetModal";
-import ShareModal from "./ShareModal/ShareModal";
+import Tweetbox from './Tweetbox/Tweetbox';
+import TweetItemList from './TweetItemList/TweetItemList';
+import TweetModal from './TweetModal/TweetModal';
+import ShareModal from './ShareModal/ShareModal';
 
-import "./Tweet.scss";
+import './Tweet.scss';
 
 class Tweet extends React.Component {
   state = {
@@ -16,12 +16,11 @@ class Tweet extends React.Component {
   };
 
   componentDidMount() {
-    const { thumb, name } = this.props.account;
-    const isLike = this.props.likeList.some(
-      obj => obj.thumb === thumb && obj.name === name
-    );
-
-    this.setState({ isLike: isLike });
+    // const { thumb, name } = this.props.account;
+    // const isLike = this.props.likeList.some(
+    //   obj => obj.thumb === thumb && obj.name === name
+    // );
+    // this.setState({ isLike: isLike });
   }
 
   OnOffCommentBox = () => {
@@ -43,56 +42,61 @@ class Tweet extends React.Component {
 
   render() {
     const {
-      title,
-      thumb,
-      description,
-      likeNumber,
-      likeList,
-      commentList,
+      name,
+      picture,
+      content,
+      reacts,
+      comments,
       addComment,
       addLike,
       account,
       id
     } = this.props;
-
+    let avatar;
+    
+    if (picture) avatar = `data:image/png;base64,${picture}`;
+    else avatar = 'https://placehold.it/64x64';
     return (
       <Card>
         <div className="tweet">
           <Row>
             <Col sm="2">
               <div className="tweet__image">
-                <img src={thumb} alt="Generic placeholder" />
+                <img
+                  src={avatar}
+                  alt="Generic placeholder"
+                />
               </div>
             </Col>
             <Col sm="10" className="tweet__content">
-              <h5> {title}</h5>
-              {description}
+              <h5> {name}</h5>
+              {content}
               <div className="d-flex flex-row bd-highlight ">
                 <div
                   className={`p-2 bd-highlight tweet__catalog ${
-                    this.state.isLike ? "is_active " : ""
+                    this.state.isLike ? 'is_active ' : ''
                   }}`}
                   onClick={() => this.like(addLike, account, id)}
                 >
-                  <i className="fas fa-star" /> {likeList.length}
+                  <i className="fas fa-star" /> {reacts.length}
                 </div>
                 <div
                   className={`p-2 bd-highlight tweet__catalog ${
-                    this.state.isCommentDisplay ? "is_active " : ""
+                    this.state.isCommentDisplay ? 'is_active ' : ''
                   }}`}
                   onClick={this.OnOffCommentBox}
                 >
-                  <i className="fas fa-comment" /> {commentList.length}
+                  <i className="fas fa-comment" /> {comments.length}
                 </div>
                 <ShareModal
-                  thumb={thumb}
-                  title={title}
-                  description={description}
+                  thumb={picture}
+                  title={name}
+                  description={content}
                 />
                 <div className="p-2 bd-highlight ml-auto tweet__catalog">
                   <TweetModal
-                    buttonLabel={`${likeList.length} like`}
-                    likeList={likeList}
+                    buttonLabel={`${reacts.length} like`}
+                     likeList={reacts}
                   />
                 </div>
               </div>
@@ -102,14 +106,14 @@ class Tweet extends React.Component {
         <div
           className={
             this.state.isCommentDisplay
-              ? "tweet__comment__on"
-              : "tweet__comment__off"
+              ? 'tweet__comment__on'
+              : 'tweet__comment__off'
           }
         >
           <hr />
           <Tweetbox addComment={addComment} id={id} account={account} />
           <hr />
-          <TweetItemList commentList={commentList} />
+          <TweetItemList commentList={comments} />
         </div>
       </Card>
     );

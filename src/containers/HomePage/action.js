@@ -1,15 +1,15 @@
-import { getPostListAPI, uploadPostAPI } from '../../api/';
+import { getPostListAPI, uploadPostAPI, getInteractListAPI } from '../../api/';
 
 export const ADD_TWEET = 'ADD_TWEET';
 export const LIST_TWEET = 'LIST_TWEET';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const ADD_LIKE = 'ADD_LIKE';
 
-export const FETCH_POSTS = 'FETCH_POSTS';
+export const FETCH_NEWFEEDS = 'FETCH_NEWFEEDS';
 export const UPLOAD_POST = 'UPLOAD_POST';
 
-export const fetchPosts = posts => ({
-  type: FETCH_POSTS,
+export const fetchNewFeeds = posts => ({
+  type: FETCH_NEWFEEDS,
   posts
 });
 
@@ -37,13 +37,31 @@ export const fetchPostsSrv = followings => {
       });
       postList = await Promise.all(postList);
 
-      dispatch(fetchPosts(postList));
+      dispatch(fetchNewFeeds(postList));
     } catch (e) {
       throw e;
     }
   };
 };
 
+export const fetchInteractSrv = followings => {
+  return async dispatch => {
+    try {
+      let postList = followings.map(async address => {
+        const data = await getInteractListAPI(address);
+        return await Promise.all(data);
+      });
+      
+      postList = await Promise.all(postList);
+      postList = postList.map(post => post.filter(f => Boolean(f)))
+      console.log(postList);
+
+      dispatch(fetchNewFeeds(postList));
+    } catch (e) {
+      throw e;
+    }
+  };
+};
 export function addComment(id, comment) {
   return {
     type: ADD_COMMENT,

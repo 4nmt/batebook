@@ -7,7 +7,6 @@ import {
 } from 'reactstrap';
 
 import { Link } from 'react-router-dom';
-
 import './Account.scss';
 import {
   withRouter
@@ -37,6 +36,8 @@ import {
   }
 
   render() {
+    const {thumb,name ,address} = this.props
+  
     return (
       <Dropdown
         className="account"
@@ -44,15 +45,21 @@ import {
         toggle={this.toggle}
       >
         <DropdownToggle caret>
-          <img className="account__img"src={`data:image/png;base64,${this.props.thumb}`} alt="avatar" />
-          {this.props.name}
+          <img className="account__img" src={`data:image/png;base64,${thumb}`} alt="avatar" />
+          {name}
         </DropdownToggle>
         <DropdownMenu>
-          <Link to="/account">
+          <Link to={`/${address}/tweets`}>
             <DropdownItem>Account</DropdownItem>
           </Link>
-          <Link to="/settings">
+          <Link to={`/settings`}>
             <DropdownItem>Settings</DropdownItem>
+          </Link>
+          <Link to={`/payments`}>
+            <DropdownItem>Payment</DropdownItem>
+          </Link>
+          <Link to={`/create`}>
+            <DropdownItem>Create Account</DropdownItem>
           </Link>
           <DropdownItem onClick={() => this.logout()}>Log out</DropdownItem>
         </DropdownMenu>

@@ -1,8 +1,7 @@
-import { FETCH_POSTS, ADD_TWEET, ADD_COMMENT, ADD_LIKE } from "./action";
-
-const initState = [
-  
-];
+import { FETCH_POSTS, ADD_TWEET, ADD_COMMENT, ADD_LIKE } from './action';
+import { convertNewFeeds } from '../../ultis';
+import _ from "lodash"
+const initState = [];
 
 function tweets(state = initState, action) {
   switch (action.type) {
@@ -29,8 +28,14 @@ function tweets(state = initState, action) {
         return obj;
       });
     case FETCH_POSTS:
-      return [ ...state, ...action.posts ];
-   
+      const newFeeds = convertNewFeeds(action.posts).filter(f => !_.isEmpty(f)).sort ((a,b)=> {
+        const date1 = new Date(a.createdAt)
+        const date2 = new Date(b.createdAt)
+        return  date2.getTime() - date1.getTime() 
+      });
+      
+      return [...newFeeds];
+
     default:
       return state;
   }

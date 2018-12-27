@@ -5,7 +5,7 @@ import NumberLink from "./NumberLink";
 
 import "./Header.scss";
 
-const Header = ({ banner, avatar, children }) => {
+const Header = ({  banner, avatar, children }) => {
   return (
     <header>
       <div className="profile__container">

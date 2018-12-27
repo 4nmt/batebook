@@ -114,7 +114,7 @@ function decode(data) {
       break;
 
     case 2:
-      operation = 'payment';
+      operation = 'c';
       params = PaymentParams.decode(tx.params);
       params.address = base32.encode(params.address);
       Keypair.fromPublicKey(params.address);

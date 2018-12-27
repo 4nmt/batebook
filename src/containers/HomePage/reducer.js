@@ -1,10 +1,12 @@
-import { FETCH_POSTS, ADD_TWEET, ADD_COMMENT, ADD_LIKE } from "./action";
+import { FETCH_NEWFEEDS, ADD_TWEET, ADD_COMMENT, ADD_LIKE } from "./action";
+import _ from "lodash"
+import {convertNewFeeds} from "../../ultis"
 
 const initState = [
  
 ];
 
-function tweets(state = initState, action) {
+function newFeeds(state = initState, action) {
   switch (action.type) {
     case ADD_COMMENT:
       return state.map((obj, i) => {
@@ -28,12 +30,15 @@ function tweets(state = initState, action) {
         }
         return obj;
       });
-    case FETCH_POSTS:
-      return [ ...state, ...action.posts ];
-   
+    case FETCH_NEWFEEDS:
+      const feeds = _.flattenDeep(action.posts)
+      const newFeeds = convertNewFeeds(feeds).filter(f => f.operation)
+      console.log(newFeeds);
+      
+      return [...newFeeds];
     default:
       return state;
   }
 }
 
-export default tweets;
+export default newFeeds;
